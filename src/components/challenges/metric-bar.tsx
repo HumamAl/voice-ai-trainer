@@ -1,41 +1,54 @@
-import { cn } from "@/lib/utils";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 
 interface MetricBarProps {
   label: string;
   value: number;
-  max: number;
+  max?: number;
   unit?: string;
-  color?: "green" | "yellow" | "red" | "blue";
+  color?: string;
 }
 
 export function MetricBar({
   label,
   value,
-  max,
+  max = 100,
   unit = "",
-  color = "blue",
+  color = "var(--primary)",
 }: MetricBarProps) {
   const percentage = Math.min((value / max) * 100, 100);
-  const colorClasses = {
-    green: "bg-[color:var(--success)]",
-    yellow: "bg-[color:var(--warning)]",
-    red: "bg-destructive",
-    blue: "bg-primary",
-  };
+  const [animatedWidth, setAnimatedWidth] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setAnimatedWidth(percentage), 100);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [percentage]);
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5" ref={ref}>
       <div className="flex justify-between text-sm">
         <span className="text-muted-foreground">{label}</span>
-        <span className="font-medium">
+        <span className="font-medium font-mono">
           {value}
-          {unit}
+          {unit || `/${max}`}
         </span>
       </div>
-      <div className="h-2 rounded-full bg-secondary">
+      <div className="h-2 rounded-full bg-secondary overflow-hidden">
         <div
-          className={cn("h-full rounded-full transition-all", colorClasses[color])}
-          style={{ width: `${percentage}%` }}
+          className="h-full rounded-full transition-all duration-700 ease-out"
+          style={{ width: `${animatedWidth}%`, background: color }}
         />
       </div>
     </div>

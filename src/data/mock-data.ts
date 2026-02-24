@@ -1,12 +1,443 @@
-// App-specific mock data goes here
-// Replace with domain-specific data for each proposal app
-//
-// Guidelines:
-// - 10-20 items minimum per dataset
-// - Realistic names, dates, amounts
-// - Include edge cases (overdue, high-priority, empty states)
-// - All data typed in lib/types.ts
+import type {
+  PersonalityConfig,
+  Session,
+  SessionFeedback,
+  UserProgress,
+  UserStats,
+  ConversationMessage,
+  ActiveUser,
+} from "@/lib/types";
 
-export const mockData = {
-  // TODO: Replace with app-specific data
+// ── Personality Modes ──────────────────────────────────────────
+
+export const personalityModes: PersonalityConfig[] = [
+  {
+    id: "coach",
+    label: "Performance Coach",
+    description: "Direct, structured feedback. Pushes you to articulate clearly and stay on track.",
+    tone: "Firm but encouraging",
+    icon: "trophy",
+    color: "oklch(0.72 0.19 145)",
+  },
+  {
+    id: "interviewer",
+    label: "Mock Interviewer",
+    description: "Simulates real interview scenarios. Asks follow-ups, probes for specifics.",
+    tone: "Professional, slightly formal",
+    icon: "briefcase",
+    color: "oklch(0.65 0.22 250)",
+  },
+  {
+    id: "mentor",
+    label: "Patient Mentor",
+    description: "Guides conversation at your pace. Offers context and encouragement.",
+    tone: "Warm, patient, guiding",
+    icon: "heart",
+    color: "oklch(0.70 0.18 30)",
+  },
+  {
+    id: "challenger",
+    label: "Devil's Advocate",
+    description: "Challenges your arguments. Pushes back on weak points to strengthen reasoning.",
+    tone: "Provocative, sharp",
+    icon: "zap",
+    color: "oklch(0.75 0.20 85)",
+  },
+  {
+    id: "supportive",
+    label: "Confidence Builder",
+    description: "Focuses on building speaking confidence. Positive reinforcement, gentle corrections.",
+    tone: "Encouraging, affirming",
+    icon: "sparkles",
+    color: "oklch(0.68 0.21 310)",
+  },
+];
+
+// ── Sessions ───────────────────────────────────────────────────
+
+export const sessions: Session[] = [
+  {
+    id: "sess-001",
+    userId: "user-01",
+    personalityMode: "interviewer",
+    status: "completed",
+    startedAt: "2026-02-24T09:15:00Z",
+    endedAt: "2026-02-24T09:32:00Z",
+    durationMinutes: 17,
+    topic: "Product Manager Behavioral Interview",
+    overallScore: 82,
+    feedbackId: "fb-001",
+  },
+  {
+    id: "sess-002",
+    userId: "user-01",
+    personalityMode: "coach",
+    status: "completed",
+    startedAt: "2026-02-23T14:00:00Z",
+    endedAt: "2026-02-23T14:22:00Z",
+    durationMinutes: 22,
+    topic: "Persuasive Pitch Practice",
+    overallScore: 75,
+    feedbackId: "fb-002",
+  },
+  {
+    id: "sess-003",
+    userId: "user-01",
+    personalityMode: "mentor",
+    status: "completed",
+    startedAt: "2026-02-22T11:30:00Z",
+    endedAt: "2026-02-22T11:48:00Z",
+    durationMinutes: 18,
+    topic: "Conflict Resolution Scenario",
+    overallScore: 88,
+    feedbackId: "fb-003",
+  },
+  {
+    id: "sess-004",
+    userId: "user-01",
+    personalityMode: "challenger",
+    status: "completed",
+    startedAt: "2026-02-21T16:45:00Z",
+    endedAt: "2026-02-21T17:05:00Z",
+    durationMinutes: 20,
+    topic: "Defending a Technical Decision",
+    overallScore: 71,
+    feedbackId: "fb-004",
+  },
+  {
+    id: "sess-005",
+    userId: "user-01",
+    personalityMode: "supportive",
+    status: "completed",
+    startedAt: "2026-02-20T10:00:00Z",
+    endedAt: "2026-02-20T10:15:00Z",
+    durationMinutes: 15,
+    topic: "Self-Introduction Practice",
+    overallScore: 91,
+    feedbackId: "fb-005",
+  },
+  {
+    id: "sess-006",
+    userId: "user-01",
+    personalityMode: "interviewer",
+    status: "completed",
+    startedAt: "2026-02-19T13:20:00Z",
+    endedAt: "2026-02-19T13:42:00Z",
+    durationMinutes: 22,
+    topic: "Leadership Experience Deep Dive",
+    overallScore: 78,
+    feedbackId: "fb-006",
+  },
+  {
+    id: "sess-007",
+    userId: "user-01",
+    personalityMode: "coach",
+    status: "completed",
+    startedAt: "2026-02-18T09:00:00Z",
+    endedAt: "2026-02-18T09:25:00Z",
+    durationMinutes: 25,
+    topic: "Elevator Pitch Refinement",
+    overallScore: 84,
+    feedbackId: "fb-007",
+  },
+  {
+    id: "sess-008",
+    userId: "user-01",
+    personalityMode: "challenger",
+    status: "completed",
+    startedAt: "2026-02-17T15:30:00Z",
+    endedAt: "2026-02-17T15:50:00Z",
+    durationMinutes: 20,
+    topic: "Salary Negotiation Roleplay",
+    overallScore: 67,
+    feedbackId: "fb-008",
+  },
+  {
+    id: "sess-009",
+    userId: "user-01",
+    personalityMode: "mentor",
+    status: "completed",
+    startedAt: "2026-02-16T11:00:00Z",
+    endedAt: "2026-02-16T11:20:00Z",
+    durationMinutes: 20,
+    topic: "Active Listening Exercise",
+    overallScore: 86,
+    feedbackId: "fb-009",
+  },
+  {
+    id: "sess-010",
+    userId: "user-01",
+    personalityMode: "supportive",
+    status: "completed",
+    startedAt: "2026-02-15T14:15:00Z",
+    endedAt: "2026-02-15T14:30:00Z",
+    durationMinutes: 15,
+    topic: "Overcoming Public Speaking Anxiety",
+    overallScore: 79,
+    feedbackId: "fb-010",
+  },
+  {
+    id: "sess-011",
+    userId: "user-01",
+    personalityMode: "interviewer",
+    status: "completed",
+    startedAt: "2026-02-14T10:30:00Z",
+    endedAt: "2026-02-14T10:52:00Z",
+    durationMinutes: 22,
+    topic: "Case Study: Market Entry Strategy",
+    overallScore: 73,
+    feedbackId: "fb-011",
+  },
+  {
+    id: "sess-012",
+    userId: "user-01",
+    personalityMode: "coach",
+    status: "completed",
+    startedAt: "2026-02-13T16:00:00Z",
+    endedAt: "2026-02-13T16:18:00Z",
+    durationMinutes: 18,
+    topic: "Storytelling in Business Context",
+    overallScore: 80,
+    feedbackId: "fb-012",
+  },
+  {
+    id: "sess-013",
+    userId: "user-01",
+    personalityMode: "challenger",
+    status: "abandoned",
+    startedAt: "2026-02-12T09:45:00Z",
+    endedAt: "2026-02-12T09:52:00Z",
+    durationMinutes: 7,
+    topic: "Handling Objections",
+    overallScore: 0,
+    feedbackId: null,
+  },
+  {
+    id: "sess-014",
+    userId: "user-01",
+    personalityMode: "mentor",
+    status: "completed",
+    startedAt: "2026-02-11T13:00:00Z",
+    endedAt: "2026-02-11T13:24:00Z",
+    durationMinutes: 24,
+    topic: "Giving Constructive Feedback",
+    overallScore: 85,
+    feedbackId: "fb-014",
+  },
+  {
+    id: "sess-015",
+    userId: "user-01",
+    personalityMode: "interviewer",
+    status: "completed",
+    startedAt: "2026-02-10T11:15:00Z",
+    endedAt: "2026-02-10T11:38:00Z",
+    durationMinutes: 23,
+    topic: "Tell Me About Yourself",
+    overallScore: 89,
+    feedbackId: "fb-015",
+  },
+  {
+    id: "sess-016",
+    userId: "user-01",
+    personalityMode: "coach",
+    status: "in-progress",
+    startedAt: "2026-02-24T10:00:00Z",
+    endedAt: null,
+    durationMinutes: 0,
+    topic: "Handling Tough Questions",
+    overallScore: 0,
+    feedbackId: null,
+  },
+];
+
+// ── Session Feedback Reports ───────────────────────────────────
+
+export const feedbackReports: SessionFeedback[] = [
+  {
+    id: "fb-001",
+    sessionId: "sess-001",
+    overallScore: 82,
+    criteria: [
+      { name: "Clarity", score: 85, maxScore: 100, comment: "Clear and structured responses. Could reduce filler words." },
+      { name: "Engagement", score: 78, maxScore: 100, comment: "Good eye contact cues. Needs more follow-up questions." },
+      { name: "Confidence", score: 80, maxScore: 100, comment: "Steady tone throughout. Minor hesitation on technical questions." },
+      { name: "Articulation", score: 88, maxScore: 100, comment: "Strong vocabulary choices. Well-paced delivery." },
+      { name: "Pace", score: 76, maxScore: 100, comment: "Slightly rushed in closing statements." },
+      { name: "Relevance", score: 84, maxScore: 100, comment: "Answers stayed on topic. Good use of STAR method." },
+    ],
+    summary: "Strong interview performance with clear structure. Focus on pacing during closing statements and reducing filler words for a more polished delivery.",
+    strengths: ["Structured STAR responses", "Strong vocabulary", "Consistent confidence"],
+    improvements: ["Reduce filler words (um, like)", "Slow down during conclusions", "Ask more follow-up questions"],
+    generatedAt: "2026-02-24T09:33:00Z",
+  },
+  {
+    id: "fb-002",
+    sessionId: "sess-002",
+    overallScore: 75,
+    criteria: [
+      { name: "Clarity", score: 72, maxScore: 100, comment: "Main points were clear but transitions need work." },
+      { name: "Engagement", score: 80, maxScore: 100, comment: "Energetic delivery. Good use of rhetorical questions." },
+      { name: "Confidence", score: 74, maxScore: 100, comment: "Voice wavered when challenged on numbers." },
+      { name: "Articulation", score: 78, maxScore: 100, comment: "Good word choices overall." },
+      { name: "Pace", score: 70, maxScore: 100, comment: "Too fast during the opening. Audience needs time to absorb." },
+      { name: "Persuasion", score: 76, maxScore: 100, comment: "Solid call to action. Needs stronger evidence backing claims." },
+    ],
+    summary: "Good energy and engagement, but the pitch needs smoother transitions and stronger data to back up claims. Opening pace was too aggressive.",
+    strengths: ["High energy delivery", "Effective rhetorical questions", "Clear call to action"],
+    improvements: ["Smooth transitions between sections", "Back claims with specific data", "Slow the opening pace"],
+    generatedAt: "2026-02-23T14:23:00Z",
+  },
+  {
+    id: "fb-003",
+    sessionId: "sess-003",
+    overallScore: 88,
+    criteria: [
+      { name: "Clarity", score: 90, maxScore: 100, comment: "Exceptionally clear framing of the conflict scenario." },
+      { name: "Empathy", score: 92, maxScore: 100, comment: "Strong acknowledgment of all parties' perspectives." },
+      { name: "Confidence", score: 85, maxScore: 100, comment: "Calm and measured throughout." },
+      { name: "Articulation", score: 88, maxScore: 100, comment: "Precise language choices." },
+      { name: "Resolution", score: 86, maxScore: 100, comment: "Proposed a workable solution with clear next steps." },
+      { name: "Active Listening", score: 87, maxScore: 100, comment: "Good paraphrasing of the other side's concerns." },
+    ],
+    summary: "Excellent conflict resolution skills. Strong empathy and clear framing. Minor improvement possible in proposing bolder solutions.",
+    strengths: ["Multi-perspective framing", "Empathetic language", "Clear resolution proposals"],
+    improvements: ["Propose bolder solutions early", "Use more concrete examples", "Summarize agreements more explicitly"],
+    generatedAt: "2026-02-22T11:49:00Z",
+  },
+  {
+    id: "fb-004",
+    sessionId: "sess-004",
+    overallScore: 71,
+    criteria: [
+      { name: "Clarity", score: 68, maxScore: 100, comment: "Arguments became circular under pressure." },
+      { name: "Evidence", score: 72, maxScore: 100, comment: "Used some data but needed stronger backing." },
+      { name: "Confidence", score: 65, maxScore: 100, comment: "Voice pitch increased when challenged. Work on composure." },
+      { name: "Articulation", score: 76, maxScore: 100, comment: "Good technical vocabulary. Sentence structure broke down under pressure." },
+      { name: "Persuasion", score: 70, maxScore: 100, comment: "Acknowledged counterpoints but didn't effectively rebut." },
+      { name: "Composure", score: 74, maxScore: 100, comment: "Maintained basic structure but showed stress signals." },
+    ],
+    summary: "Good effort defending under pressure. Need to prepare counter-arguments in advance and practice staying composed when challenged.",
+    strengths: ["Acknowledged valid counterpoints", "Technical vocabulary", "Maintained engagement"],
+    improvements: ["Prepare specific counter-arguments", "Practice composure under pressure", "Avoid circular reasoning"],
+    generatedAt: "2026-02-21T17:06:00Z",
+  },
+  {
+    id: "fb-005",
+    sessionId: "sess-005",
+    overallScore: 91,
+    criteria: [
+      { name: "Clarity", score: 93, maxScore: 100, comment: "Concise, well-structured introduction." },
+      { name: "Engagement", score: 90, maxScore: 100, comment: "Natural delivery with good personality showing." },
+      { name: "Confidence", score: 92, maxScore: 100, comment: "Relaxed and genuine throughout." },
+      { name: "Articulation", score: 89, maxScore: 100, comment: "Clean phrasing. No filler words." },
+      { name: "Memorability", score: 91, maxScore: 100, comment: "Strong opening hook and closing statement." },
+      { name: "Authenticity", score: 90, maxScore: 100, comment: "Felt natural, not rehearsed." },
+    ],
+    summary: "Outstanding self-introduction. Natural, confident, and memorable. Ready to use in real settings.",
+    strengths: ["Natural delivery", "Strong opening hook", "Zero filler words"],
+    improvements: ["Could add one more specific achievement", "Vary the closing for different audiences", "Consider adding a question to engage listeners"],
+    generatedAt: "2026-02-20T10:16:00Z",
+  },
+];
+
+// ── Monthly Progress Data (Chart) ──────────────────────────────
+
+export const monthlyProgress: UserProgress[] = [
+  { month: "Sep 2025", sessionsCompleted: 4, avgScore: 62, avgDuration: 12, topMode: "supportive" },
+  { month: "Oct 2025", sessionsCompleted: 7, avgScore: 68, avgDuration: 14, topMode: "mentor" },
+  { month: "Nov 2025", sessionsCompleted: 9, avgScore: 72, avgDuration: 16, topMode: "coach" },
+  { month: "Dec 2025", sessionsCompleted: 8, avgScore: 74, avgDuration: 17, topMode: "interviewer" },
+  { month: "Jan 2026", sessionsCompleted: 12, avgScore: 79, avgDuration: 19, topMode: "interviewer" },
+  { month: "Feb 2026", sessionsCompleted: 15, avgScore: 81, avgDuration: 20, topMode: "coach" },
+];
+
+// ── User Stats (Dashboard KPIs) ───────────────────────────────
+
+export const userStats: UserStats = {
+  totalSessions: 55,
+  avgSessionDuration: 18,
+  overallScore: 81,
+  currentStreak: 8,
+  longestStreak: 14,
+  totalPracticeHours: 16.5,
+  favoriteMode: "interviewer",
+  improvementRate: 12.4,
 };
+
+// ── Sample Conversation (Voice Studio Preview) ─────────────────
+
+export const sampleConversation: ConversationMessage[] = [
+  {
+    id: "msg-001",
+    role: "ai",
+    content: "Welcome to your mock interview session. I'll be asking you behavioral questions typical of a Product Manager role. Let's start — tell me about a time you had to make a difficult product decision with incomplete data.",
+    timestamp: "2026-02-24T09:15:00Z",
+  },
+  {
+    id: "msg-002",
+    role: "user",
+    content: "Sure. Last year we were deciding whether to pivot our onboarding flow. We had some qualitative feedback suggesting it was confusing, but our quantitative data showed decent completion rates. I decided to run a small A/B test first before committing to a full redesign.",
+    timestamp: "2026-02-24T09:15:45Z",
+  },
+  {
+    id: "msg-003",
+    role: "ai",
+    content: "Good start. You mentioned qualitative vs quantitative tension — that's a strong setup. What specific signals from the qualitative side tipped you toward testing? And how did you scope the A/B test?",
+    timestamp: "2026-02-24T09:16:20Z",
+  },
+  {
+    id: "msg-004",
+    role: "user",
+    content: "Three support tickets in a week mentioned the same onboarding step. That wasn't much data, but the specificity was a signal. For the test, I simplified just that one step — replaced a 3-field form with a single dropdown — and measured completion rate and time-to-first-action.",
+    timestamp: "2026-02-24T09:17:10Z",
+  },
+  {
+    id: "msg-005",
+    role: "ai",
+    content: "Excellent specificity. You quantified the signal, scoped narrowly, and chose clear success metrics. One follow-up: what would you have done differently if the A/B test showed no improvement?",
+    timestamp: "2026-02-24T09:17:50Z",
+  },
+  {
+    id: "msg-006",
+    role: "user",
+    content: "I would have looked at the qualitative feedback again to see if the real issue was elsewhere in the flow. Sometimes the symptom and the cause are in different steps.",
+    timestamp: "2026-02-24T09:18:30Z",
+    sentiment: "positive",
+  },
+];
+
+// ── Active Users (Admin View) ──────────────────────────────────
+
+export const activeUsers: ActiveUser[] = [
+  { id: "user-01", name: "Sarah Chen", avatar: "SC", sessionsThisWeek: 5, currentStreak: 8, topScore: 91, lastActive: "2026-02-24T09:32:00Z" },
+  { id: "user-02", name: "Marcus Rivera", avatar: "MR", sessionsThisWeek: 3, currentStreak: 4, topScore: 85, lastActive: "2026-02-24T08:15:00Z" },
+  { id: "user-03", name: "Aisha Patel", avatar: "AP", sessionsThisWeek: 7, currentStreak: 12, topScore: 94, lastActive: "2026-02-23T22:10:00Z" },
+  { id: "user-04", name: "James O'Brien", avatar: "JO", sessionsThisWeek: 2, currentStreak: 2, topScore: 76, lastActive: "2026-02-23T16:45:00Z" },
+  { id: "user-05", name: "Mei Lin", avatar: "ML", sessionsThisWeek: 4, currentStreak: 6, topScore: 88, lastActive: "2026-02-23T14:20:00Z" },
+  { id: "user-06", name: "David Kim", avatar: "DK", sessionsThisWeek: 6, currentStreak: 10, topScore: 92, lastActive: "2026-02-24T07:30:00Z" },
+  { id: "user-07", name: "Elena Vasquez", avatar: "EV", sessionsThisWeek: 1, currentStreak: 1, topScore: 69, lastActive: "2026-02-22T19:00:00Z" },
+  { id: "user-08", name: "Raj Kapoor", avatar: "RK", sessionsThisWeek: 4, currentStreak: 5, topScore: 83, lastActive: "2026-02-24T06:45:00Z" },
+  { id: "user-09", name: "Chloe Martin", avatar: "CM", sessionsThisWeek: 3, currentStreak: 3, topScore: 80, lastActive: "2026-02-23T20:30:00Z" },
+  { id: "user-10", name: "Omar Hassan", avatar: "OH", sessionsThisWeek: 5, currentStreak: 7, topScore: 87, lastActive: "2026-02-24T09:00:00Z" },
+];
+
+// ── Feedback Criteria Labels (for charts) ──────────────────────
+
+export const feedbackCriteriaLabels = [
+  "Clarity",
+  "Engagement",
+  "Confidence",
+  "Articulation",
+  "Pace",
+  "Relevance",
+] as const;
+
+// ── Mode Distribution (for pie/bar chart) ──────────────────────
+
+export const modeDistribution = [
+  { mode: "interviewer", label: "Mock Interviewer", sessions: 18, color: "var(--chart-1)" },
+  { mode: "coach", label: "Performance Coach", sessions: 14, color: "var(--chart-2)" },
+  { mode: "mentor", label: "Patient Mentor", sessions: 10, color: "var(--chart-3)" },
+  { mode: "challenger", label: "Devil's Advocate", sessions: 8, color: "var(--chart-4)" },
+  { mode: "supportive", label: "Confidence Builder", sessions: 5, color: "var(--chart-5)" },
+];
