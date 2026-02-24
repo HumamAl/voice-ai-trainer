@@ -2,7 +2,7 @@
 
 ## Q: What you would build, what stack you would use, and why you are the right person?
 
-Next.js 16 frontend with WebSocket-based voice pipeline — Deepgram for streaming STT, OpenAI/Claude for dynamic response generation with personality prompt layers, and ElevenLabs for low-latency TTS. PostgreSQL for session storage and progress tracking. I built this demo to show the UI architecture: {VERCEL_URL}
+Next.js 16 frontend with WebSocket-based voice pipeline — Deepgram for streaming STT, OpenAI/Claude for dynamic response generation with personality prompt layers, and ElevenLabs for low-latency TTS. PostgreSQL for session storage and progress tracking. I built this demo to show the UI architecture: https://voice-ai-trainer.vercel.app
 
 I'm the right person because I've shipped AI pipelines (WMF Agent Dashboard with Claude API), audio apps, and 24+ production projects. I treat projects like my own product — daily updates, proactive problem flagging, no hand-holding needed.
 
